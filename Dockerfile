@@ -100,13 +100,13 @@ cat > /root/.openclaw/openclaw.json <<EOF\n\
     "auth": { "mode": "token", "token": "${OPENCLAW_GATEWAY_PASSWORD:-openclaw123}" },\n\
     "controlUi": { \n\
       "allowInsecureAuth": true,\n\
-      "allowedOrigins": ["https://guolicen-openclaw-ai.hf.space"]\n\
+      "allowedOrigins": ["https://guolicen-openclaw-ai.hf.space"],\n\
+      "dangerouslyDisableDeviceAuth": true\n\
     }\n\
   }\n\
 }\n\
 EOF\n\
 \n\
-# 【终极杀招：强行注入最高权限环境变量，废掉它的强制配对机制】\n\
 export OPENCLAW_AUTH_MODE="token"\n\
 export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_PASSWORD:-openclaw123}"\n\
 \n\
