@@ -97,7 +97,7 @@ cat > /root/.openclaw/openclaw.json <<EOF\n\
   "gateway": {\n\
     "mode": "local", "bind": "lan", "port": $PORT,\n\
     "trustedProxies": ["0.0.0.0/0", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],\n\
-    "auth": { "mode": "token", "token": "${OPENCLAW_GATEWAY_PASSWORD:-Cen156123.}" },\n\
+    "auth": { "mode": "token", "token": "${OPENCLAW_GATEWAY_PASSWORD:-openclaw123}" },\n\
     "controlUi": { \n\
       "allowInsecureAuth": true,\n\
       "allowedOrigins": ["https://guolicen-openclaw-ai.hf.space"],\n\
@@ -108,7 +108,7 @@ cat > /root/.openclaw/openclaw.json <<EOF\n\
 EOF\n\
 \n\
 export OPENCLAW_AUTH_MODE="token"\n\
-export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_PASSWORD:-Cen156123.}"\n\
+export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_PASSWORD:-openclaw123}"\n\
 \n\
 (while true; do sleep 10800; python3 /usr/local/bin/sync.py backup; done) &\n\
 \n\
