@@ -77,12 +77,10 @@ mkdir -p /root/.openclaw/workspace\n\
 \n\
 python3 /usr/local/bin/sync.py restore\n\
 \n\
-# 【修改核心】：先让 doctor 执行修复，防止它抹除配置\n\
 openclaw doctor --fix\n\
 \n\
 CLEAN_BASE=$(echo "$OPENAI_API_BASE" | sed "s|/chat/completions||g" | sed "s|/v1/|/v1|g" | sed "s|/v1$|/v1|g")\n\
 \n\
-# 【修改核心】：然后再强行写入我们的配置，确保密码绝对生效\n\
 cat > /root/.openclaw/openclaw.json <<EOF\n\
 {\n\
   "models": {\n\
@@ -99,7 +97,7 @@ cat > /root/.openclaw/openclaw.json <<EOF\n\
   "gateway": {\n\
     "mode": "local", "bind": "lan", "port": $PORT,\n\
     "trustedProxies": ["0.0.0.0/0", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],\n\
-    "auth": { "mode": "token", "token": "${OPENCLAW_GATEWAY_PASSWORD:-Cen156159.}" },\n\
+    "auth": { "mode": "token", "token": "${OPENCLAW_GATEWAY_PASSWORD:-openclaw123}" },\n\
     "controlUi": { \n\
       "allowInsecureAuth": true,\n\
       "allowedOrigins": ["https://guolicen-openclaw-ai.hf.space"]\n\
@@ -107,6 +105,10 @@ cat > /root/.openclaw/openclaw.json <<EOF\n\
   }\n\
 }\n\
 EOF\n\
+\n\
+# 【终极杀招：强行注入最高权限环境变量，废掉它的强制配对机制】\n\
+export OPENCLAW_AUTH_MODE="token"\n\
+export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_PASSWORD:-openclaw123}"\n\
 \n\
 (while true; do sleep 10800; python3 /usr/local/bin/sync.py backup; done) &\n\
 \n\
