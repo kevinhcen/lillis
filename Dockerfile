@@ -77,8 +77,12 @@ mkdir -p /root/.openclaw/workspace\n\
 \n\
 python3 /usr/local/bin/sync.py restore\n\
 \n\
+# 【修改核心】：先让 doctor 执行修复，防止它抹除配置\n\
+openclaw doctor --fix\n\
+\n\
 CLEAN_BASE=$(echo "$OPENAI_API_BASE" | sed "s|/chat/completions||g" | sed "s|/v1/|/v1|g" | sed "s|/v1$|/v1|g")\n\
 \n\
+# 【修改核心】：然后再强行写入我们的配置，确保密码绝对生效\n\
 cat > /root/.openclaw/openclaw.json <<EOF\n\
 {\n\
   "models": {\n\
@@ -106,7 +110,6 @@ EOF\n\
 \n\
 (while true; do sleep 10800; python3 /usr/local/bin/sync.py backup; done) &\n\
 \n\
-openclaw doctor --fix\n\
 exec openclaw gateway run --port $PORT\n\
 ' > /usr/local/bin/start-openclaw && chmod +x /usr/local/bin/start-openclaw
 
